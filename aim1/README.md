@@ -1,1 +1,1 @@
-![test image](testimage.jpg)
+![test image](MAGIC_Crossing_Scheme.png)
