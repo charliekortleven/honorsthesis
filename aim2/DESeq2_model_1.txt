@@ -1,0 +1,204 @@
+#set wd to where gene counts are stored
+setwd("C://Users//Charlie Kortleven//Desktop//Senior Thesis//Aim_2//GeneCounts//gene_counts_per_sample")
+
+BiocManager::install("limma")
+BiocManager::install("openxlsx")
+BiocManager::install("DESeq2")
+BiocManager::install("ggplot2")
+BiocManager::install("ggrepel")
+BiocManager::install("pheatmap")
+BiocManager::install("airway")
+BiocManager::install("tidyverse")
+
+library(pheatmap)
+library(openxlsx)
+library(limma)
+library(DESeq2)
+library(ggplot2)
+library(ggrepel)
+library(airway)
+library(tidyverse)
+
+
+sampleData = read.xlsx("sampleData.xlsx")
+sampleData = as.data.frame(sampleData)
+rownames(sampleData) = sampleData$sample_id
+sampleData$population = sampleData$individual
+sampleData$individual= NULL
+
+#rows are gene columns are sample ID
+count_matrix = read.csv("count_matrix.csv", row.names=1)
+countData = as.data.frame(count_matrix)
+
+all(colnames(countData) %in% rownames(sampleData))
+all(colnames(countData) == rownames(sampleData))
+
+#model 1: "what is the effect of heat in the parental generation, controlling for genotype"?
+dds_hot_vs_cold = DESeqDataSetFromMatrix(countData = countData, 
+                                                       colData = sampleData, 
+                                                     design = ~ population + batch + condition)
+dds_hot_vs_cold
+
+
+#keep rows that have at least 10 reads across all samples --> -3000 genes
+keep = rowSums(counts(dds_hot_vs_cold)) >= 10
+dds_hot_vs_cold = dds_hot_vs_cold[keep, ]
+
+
+#set the factor level (control)
+dds_hot_vs_cold$condition = relevel(dds_hot_vs_cold$condition, ref = "CC")
+
+
+dds_hot_vs_cold = DESeq(dds_hot_vs_cold)
+res_hot_vs_cold = results(dds_hot_vs_cold)
+summary(res_hot_vs_cold)
+results(dds_hot_vs_cold, contrast=c("condition", "HC", "CC"))
+
+#MA plot
+plotMA(dds_hot_vs_cold)
+
+#volcano plot
+pCutoff <- 0.05
+FCcutoff <- 1.0
+
+EnhancedVolcano(res_hot_vs_cold,
+                lab = rownames(res_hot_vs_cold),
+                x = 'log2FoldChange',
+                y = 'padj',
+                pCutoff = pCutoff,
+                FCcutoff = FCcutoff,
+                title = "Volcano Plot: HC vs CC",
+                subtitle = "padj < 0.05, log2FC > 1.0",
+                pointSize = 1.0,
+                labSize = 3.0,
+                col = c('grey30', 'forestgreen', 'royalblue', 'red2'),
+                legendPosition = 'right')
+
+#PCA plot
+
+#first stabilize variance 
+vsd <- vst(dds_hot_vs_cold, blind = FALSE)
+
+#remove batch effect from the stabilized data (only for visualization)
+assay(vsd) <- removeBatchEffect(assay(vsd), batch = sampleData$batch)
+
+pca_data <- plotPCA(vsd, intgroup = c("condition", "population"), returnData = TRUE)
+labels <- plotPCA(vsd, intgroup = c("condition", "population"))$labels
+
+ggplot(pca_data, aes(x = PC1, y = PC2, color = condition, label = population)) +
+  geom_point(size = 3) +
+  geom_text_repel(size = 3, max.overlaps = Inf) +
+  xlab(labels$x) +
+  ylab(labels$y) +
+  scale_color_manual(values = c("HC" = "firebrick3", "CC" = "royalblue3")) +
+  theme_minimal()
+
+#heatmap -- all DE genes
+
+#subset data to sig_genes only (p-valueadj less than 0.05)
+
+sig_genes = res_hot_vs_cold[res_hot_vs_cold$padj < 0.05, ]
+vsd_sig = assay(vsd)[rownames(sig_genes), ]
+
+#z-score values
+vsd_sig_z_scored <- t(scale(t(vsd_sig)))
+
+#axes for plot
+annotation_col <- data.frame(
+  Condition = sampleData$condition,
+  Population = sampleData$population
+)
+
+rownames(annotation_col) <- colnames(vsd_sig_z_scored)
+
+#sort by cond then pop
+sorted_samples <- order(sampleData$condition, sampleData$population)
+vsd_mat_sorted <- vsd_sig_z_scored[, sorted_samples]
+annotation_col_sorted <- annotation_col[sorted_samples, ]
+
+#heatmap
+pheatmap(vsd_mat_sorted,
+         annotation_col = annotation_col_sorted,
+         show_rownames = TRUE,
+         fontsize_col = 8,
+         fontsize_row = 6,
+         cluster_rows = TRUE,            
+         cluster_cols = FALSE,         
+         color = colorRampPalette(c("navy", "white", "firebrick3"))(50),
+         main = "Effect of Condition (VST + Batch-correction)")
+
+#what genes are upregulated in HC?
+up_in_HC <- res_hot_vs_cold[which(res_hot_vs_cold$padj < 0.05 & res_hot_vs_cold$log2FoldChange > 0), ]
+
+#what genes are downregulated in CC?
+down_in_HC <- res_hot_vs_cold[which(res_hot_vs_cold$padj < 0.05 & res_hot_vs_cold$log2FoldChange < 0), ]
+
+annotations <- read.table("Mnasutusvar_SF_822_v2.1.annotation_info (1).txt",
+                          header = TRUE,
+                          sep = "\t",
+                          stringsAsFactors = FALSE,
+                          fill = TRUE,
+                          quote = "")
+
+#clean them by removing .v2.1
+clean_gene_ids_1 <- gsub("\\.v2\\.1$", "", rownames(up_in_HC))
+clean_gene_ids_2 <- gsub("\\.v2\\.1$", "", rownames(down_in_HC))
+
+up_HC_df <- data.frame(
+  GeneID = clean_gene_ids_1,
+  padj = up_in_HC$padj,
+  log2FoldChange = up_in_HC$log2FoldChange
+)
+
+down_HC_df <- data.frame(
+  GeneID = clean_gene_ids_2,
+  padj = down_in_HC$padj,
+  log2FoldChange = down_in_HC$log2FoldChange
+)
+
+annotations$clean_id <- gsub("\\.v2\\.1$", "", annotations$`Minas.01G000100`)
+
+
+#join w annotation data on GeneID
+up_HC <- merge(up_HC_df, annotations, by.x = "GeneID", by.y = "clean_id")
+down_HC <- merge(down_HC_df, annotations, by.x = "GeneID", by.y = "clean_id")
+
+#order by p-value + fold change
+up_HC_final = up_HC[order(up_HC$padj, up_HC$log2FoldChange), ]
+down_HC_final = down_HC[order(down_HC$padj, down_HC$log2FoldChange), ]
+
+#save these files 
+write.csv(up_HC_final, "up_HC_final.csv")
+write.csv(down_HC_final, "down_HC_final.csv")
+
+
+#heat map -- subset by upregulation/downregulation
+
+vsd_sig = assay(vsd)[rownames(down_in_HC), ]
+
+#z-score values
+vsd_sig_z_scored <- t(scale(t(vsd_sig)))
+
+
+# Create condition annotation (as a data frame)
+annotation_col <- data.frame(Condition = sampleData$condition)
+rownames(annotation_col) <- rownames(sampleData)
+
+# Get sorted sample indices
+sorted_samples <- order(annotation_col$Condition)
+
+# Sort matrix and annotation accordingly
+vsd_mat_sorted <- vsd_sig_z_scored[, sorted_samples]
+annotation_col_sorted <- annotation_col[sorted_samples, , drop = FALSE]
+
+pheatmap(vsd_mat_sorted,
+         annotation_col = annotation_col_sorted,
+         show_rownames = TRUE,
+         fontsize_col = 8,
+         fontsize_row = 6,
+         cluster_rows = TRUE,
+         cluster_cols = FALSE,  # Keep columns in condition order
+         color = colorRampPalette(c("navy", "white", "firebrick3"))(50),
+         main = "Downregulated in HC, Upregulated in CC (VST + Z-score)")
+
+res_with_shrink <- lfcShrink(dds_hot_vs_cold, coef=2, contrast=c("condition", "HC", "CC"), type="apeglm")
