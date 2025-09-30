@@ -1,0 +1,24 @@
+#here is an example of the control file for Cross A
+#using cross type riself4 implies a 4-way cross between inbred founders
+description: "Mimulus laciniatus MAGIC lines - Genetic Map Construction"
+crosstype: "riself4"
+sep: ","
+na.strings: 
+  - "-"
+  - "NA"
+comment.char: "#"
+geno: "ril_genotype_cross_A.csv"
+founder_geno: "parental_genotype_cross_A.csv"
+pmap: "physicalmap_organized.csv"
+gmap: "physicalmap_organized.csv"
+pheno: "ril_pheno_cross_A.csv"
+
+genotypes:
+  A: 1
+  H: 2
+  B: 3
+
+geno_transposed: true
+founder_geno_transposed: true
+cross_info:
+  file: "cross_info_cross_A.csv"

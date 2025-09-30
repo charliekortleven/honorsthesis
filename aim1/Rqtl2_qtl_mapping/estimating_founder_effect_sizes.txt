@@ -1,0 +1,47 @@
+#estimating relative founder effect sizes
+c2eff <- scan1coef(genoprobs[,"4"], cross$pheno[ ,  "DaysFlower_Hot"])
+
+#confirmed same order as they were inputted
+colnames(c2eff) = c("HHR", "OPN", "PET", "SNB", "SHL", "TRT", "Intercept")
+
+#at given loci 
+prefix <- "h2tg000004l_"
+start <- 3016522
+end <- 3312962
+
+all_markers <- rownames(c2eff)
+
+markers_in_range <- all_markers[
+  grepl(prefix, all_markers) & 
+    as.numeric(sub(prefix, "", all_markers)) >= start & 
+    as.numeric(sub(prefix, "", all_markers)) <= end
+]
+
+coef_in_range <- c2eff[rownames(c2eff) %in% markers_in_range, ]
+
+
+library(dplyr)
+library(tidyr)
+
+coef_df <- coef_in_range %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("marker") %>%
+  select(-Intercept) %>% 
+  pivot_longer(
+    cols = -marker,
+    names_to = "genotype",
+    values_to = "effect"
+  )
+
+library(ggplot2)
+
+ggplot(coef_df, aes(x = genotype, y = effect)) +
+  geom_point(position = position_jitter(width = 0.1), alpha = 0.6, color = "steelblue") +
+  stat_summary(fun = mean, geom = "crossbar", width = 0.3, color = "black") +
+  labs(
+    x = "Founder Genotype",
+    y = "Founder Allele Effect Size (Additive)",
+    title = "Founder Effects Mean(Flower Anthocyanin (1-5) 1 1)"
+  ) +
+  theme_minimal(base_size = 16) 
+

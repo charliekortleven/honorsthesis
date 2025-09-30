@@ -1,0 +1,41 @@
+setwd("C:/Users/Charlie Kortleven/Desktop/Senior Thesis/Aim_1/Charlie_second_qtl_mapping/QTLMapping_Kortleven/All_cross_inputs/")
+library(qtl2)
+
+#read in cross and calculate genotype probabilities
+cross <- read_cross2("qtlmapping_all.yaml")
+
+#placeholder assuming constant recombination, until
+pmap <- cross$pmap  
+L <- sum(sapply(pmap, function(a) diff(range(a))))
+gmap <- lapply(pmap, function(a) a / L * 2000)
+
+#calculate genotype probabilities 
+genoprobs <- calc_genoprob(cross, cross$gmap, error_prob = 0.002)
+
+perm_results <- scan1perm(
+  genoprobs = genoprobs,
+  pheno = cross$pheno[,  "HeightFlower_Cold", drop = FALSE],
+  n_perm = 1000,
+  cores = 3
+)
+lod_threshold <- summary(perm_results, alpha = 0.05) 
+
+#scan one
+scan_results <- scan1(genoprobs = genoprobs, cross$pheno[ ,   "HeightFlower_Cold", drop = FALSE])
+#get peaks (for sig qtlscans only)
+qtl_peaks <- find_peaks(scan_results, map = cross$gmap, threshold = lod_threshold, drop=1.5)
+
+
+#plot scan
+par(cex.axis = 0.5) 
+#type = p is points, for line l
+plot_scan1(scan_results, 
+           map = cross$gmap, 
+           main = "QTL Scan for HeightFlower_Cold",
+           ylim = c(0, 10), 
+           xlab = "Contig", 
+           type = "p", 
+           pch = 16, 
+           col = adjustcolor("navyblue", alpha.f = 0.5)) 
+
+abline(h = lod_threshold, col = "red", lty = 2, lwd = 2)

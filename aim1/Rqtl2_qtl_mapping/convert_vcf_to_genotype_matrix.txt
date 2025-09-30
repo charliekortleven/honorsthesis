@@ -1,0 +1,23 @@
+#encode genotypes from VCF
+
+module load bio/vcftools/0.1.16-gcc-11.4.0
+
+vcftools --gzvcf /global/scratch/users/charliekortleven/Aim_1/MAGIC_RILS/FilteredFinalVCF/final_vcf_snpsonly_gatk_bcftools_filtered.vcf.gz.recode.vcf.gz --012 --out /global/scratch/users/charliekortleven/Aim_1/MAGIC_RILS/FilteredFinalVCF/
+
+#outputs: .012, .indv, .pos, combined into a single genotype matrix
+
+#encode 0,1,2 calls as A, B, H
+
+encode_genotypes <- function(x) {
+  ifelse(x == -1, "-",
+         ifelse(x == 0, "A",
+                ifelse(x == 1, "H",
+                       ifelse(x == 2, "B", NA))))
+}
+
+parental_geno_matrix_AHB[,-1] <- apply(parental_geno_matrix[,-1], 2, encode_genotypes)
+MAGIC_geno_matrix_AHB[,-1] <- apply(MAGIC_geno_matrix[,-1], 2, encode_genotypes)
+
+#take the intersection between .pos values to be SNPs shared between both parental and MAGIC vcfs
+
+
