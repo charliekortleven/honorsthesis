@@ -1,0 +1,29 @@
+# all contigs with markers shared between cross A, C, and E
+contigs <- unique(physicalmap_organized$contig)
+
+#create and save a consensus map for each contig/chr
+
+for (i in contigs) {
+  linkage_map_C_merge <- data.frame(
+    marker = linkage_map_C$marker[linkage_map_C$chr == iA],
+    position = linkage_map_C$pos[linkage_map_C$chr == i]
+  )
+  linkage_map_E_merge <- data.frame(
+    marker = linkage_map_E$marker[linkage_map_E$chr == i],
+    position = linkage_map_E$pos[linkage_map_E$chr == i]
+  )
+  linkage_map_A_merge <- data.frame(
+    marker = linkage_map_A$marker[linkage_map_A$chr == i],
+    position = linkage_map_A$pos[linkage_map_A$chr == i]
+  )
+  
+  list_of_maps <- list(linkage_map_E_merge, linkage_map_C_merge, linkage_map_A_merge)
+  
+  #weights are in the same order as maps
+  weights <- c(0.417380660955, 0.296205630355, 0.28641370869)
+
+  consensus_map <- LPmerge(list_of_maps, max.interval = 5, weights = weights)
+  
+  #save consensus map
+  write.csv(consensus_map, file = paste0("consensus_map_", i, ".csv"), row.names = FALSE)
+}

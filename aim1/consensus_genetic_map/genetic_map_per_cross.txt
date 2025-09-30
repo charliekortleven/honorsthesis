@@ -1,0 +1,13 @@
+library(qtl2convert)
+
+map_E <- est_map(cross=cross_E, maxit=100, tol=1e-6, error_prob=0.002, map_function="kosambi", cores=1, quiet=F, save_rf=T)
+map_C <- est_map(cross=cross_C, maxit=100, tol=1e-6, error_prob=0.002, map_function="kosambi", cores=1, quiet=F, save_rf=T)
+map_A <- est_map(cross=cross_A, maxit=100, tol=1e-6, error_prob=0.002, map_function="kosambi", cores=1, quiet=F, save_rf=T)
+
+linkage_map_E <- qtl2convert::map_list_to_df(map_E)
+linkage_map_C <- qtl2convert::map_list_to_df(map_C)
+linkage_map_A <- qtl2convert::map_list_to_df(map_A)
+
+colnames(linkage_map_E) <- c("chr", "marker", "position")
+colnames(linkage_map_C) <- c("chr", "marker", "position")
+colnames(linkage_map_A) <- c("chr", "marker", "position")
