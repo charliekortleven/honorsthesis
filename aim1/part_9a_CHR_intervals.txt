@@ -1,0 +1,19 @@
+awk '{print $1 "\t" 0 "\t" $2}' daEryLaci1.CHR.p_ctg.fasta.fai > mlac_CHR_intervals.bed 
+head -n 14 mlac_CHR_intervals.bed > mlac_CHR_14_intervals.bed
+
+#output: 
+#location: /global/scratch/users/charliekortleven/Aim_1_Final/Mlaciniatus_assembly/mlac_CHR_14_intervals.bed
+Chr_01  0       13000761
+Chr_02  0       18624633
+Chr_03  0       22566008
+Chr_04  0       20993863
+Chr_05  0       19057728
+Chr_06  0       22956323
+Chr_07  0       23166037
+Chr_08  0       24297548
+Chr_09  0       20260703
+Chr_10  0       20585023
+Chr_11  0       19262931
+Chr_12  0       18514099
+Chr_13  0       27399036
+Chr_14  0       26969529
