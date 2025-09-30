@@ -1,0 +1,14 @@
+cd /global/scratch/users/charliekortleven/Aim_2/rna_raw_data/all_rna
+pwd
+for forward_read in *_1.fq.gz
+do
+    reverse_read="${forward_read%_1.fq.gz}_2.fq.gz"
+    /global/home/users/charliekortleven/software/fastp \
+        -i "$forward_read" \
+        -I "$reverse_read" \
+        -o "/global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${forward_read%.fq.gz}.trimmed.fq.gz" \
+        -O "/global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${reverse_read%.fq.gz}.trimmed.fq.gz" \
+        -h "/global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${forward_read%.fq.gz}.fastp.html" \
+        -j "/global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${forward_read%.fq.gz}.fastp.json"
+    echo "trimmed: $forward_read and $reverse_read"
+done

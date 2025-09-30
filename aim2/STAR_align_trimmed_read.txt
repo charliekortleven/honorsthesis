@@ -1,0 +1,82 @@
+# move to trimmed rna reads 
+cd /global/scratch/users/charliekortleven/Aim_2/rna_trimmed
+#load STAR module
+module load STAR/2.7.11b
+
+for i in $(grep '_1.trimmed.fq.gz$' /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/sample_lists/list1.txt); do
+    prefix=$(basename "${i%_1.trimmed.fq.gz}")
+
+    STAR \
+    --genomeDir /global/scratch/users/charliekortleven/Aim_2/star_indexed_nasutus \
+    --runThreadN 8 \
+    --runMode alignReads \
+    --readFilesIn /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${prefix}_1.trimmed.fq.gz /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${prefix}_2.trimmed.fq.gz \
+    --readFilesCommand zcat \
+    --sjdbGTFfile /global/scratch/users/charliekortleven/Aim_2/gtf_annotated/Mnasutusvar_SF_822_v2.1.gene_exons.gff3.gtf \
+    --sjdbOverhang 149 \
+    --outReadsUnmapped Fastx \
+    --quantMode GeneCounts \
+    --outFilterMultimapNmax 1 \
+    --outSAMtype BAM SortedByCoordinate \
+    --twopassMode Basic \
+    --outFileNamePrefix ${prefix}_
+done &
+
+for i in $(grep '_1.trimmed.fq.gz$' /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/sample_lists/list2.txt); do
+    prefix=$(basename "${i%_1.trimmed.fq.gz}")
+
+    STAR \
+    --genomeDir /global/scratch/users/charliekortleven/Aim_2/star_indexed_nasutus \
+    --runThreadN 8 \
+    --runMode alignReads \
+    --readFilesIn /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${prefix}_1.trimmed.fq.gz /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${prefix}_2.trimmed.fq.gz \
+    --readFilesCommand zcat \
+    --sjdbGTFfile /global/scratch/users/charliekortleven/Aim_2/gtf_annotated/Mnasutusvar_SF_822_v2.1.gene_exons.gff3.gtf \
+    --sjdbOverhang 149 \
+    --outReadsUnmapped Fastx \
+    --quantMode GeneCounts \
+    --outFilterMultimapNmax 1 \
+    --outSAMtype BAM SortedByCoordinate \
+    --twopassMode Basic \
+    --outFileNamePrefix ${prefix}_
+done &
+
+for i in $(grep '_1.trimmed.fq.gz$' /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/sample_lists/list3.txt); do
+    prefix=$(basename "${i%_1.trimmed.fq.gz}")
+
+    STAR \
+    --genomeDir /global/scratch/users/charliekortleven/Aim_2/star_indexed_nasutus \
+    --runThreadN 8 \
+    --runMode alignReads \
+    --readFilesIn /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${prefix}_1.trimmed.fq.gz /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${prefix}_2.trimmed.fq.gz \
+    --readFilesCommand zcat \
+    --sjdbGTFfile /global/scratch/users/charliekortleven/Aim_2/gtf_annotated/Mnasutusvar_SF_822_v2.1.gene_exons.gff3.gtf \
+    --sjdbOverhang 149 \
+    --outReadsUnmapped Fastx \
+    --quantMode GeneCounts \
+    --outFilterMultimapNmax 1 \
+    --outSAMtype BAM SortedByCoordinate \
+    --twopassMode Basic \
+    --outFileNamePrefix ${prefix}_
+done &
+
+for i in $(grep '_1.trimmed.fq.gz$' /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/sample_lists/list4.txt); do
+    prefix=$(basename "${i%_1.trimmed.fq.gz}")
+
+    STAR \
+    --genomeDir /global/scratch/users/charliekortleven/Aim_2/star_indexed_nasutus \
+    --runThreadN 8 \
+    --runMode alignReads \
+    --readFilesIn /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${prefix}_1.trimmed.fq.gz /global/scratch/users/charliekortleven/Aim_2/rna_trimmed/${prefix}_2.trimmed.fq.gz \
+    --readFilesCommand zcat \
+    --sjdbGTFfile /global/scratch/users/charliekortleven/Aim_2/gtf_annotated/Mnasutusvar_SF_822_v2.1.gene_exons.gff3.gtf \
+    --sjdbOverhang 149 \
+    --outReadsUnmapped Fastx \
+    --quantMode GeneCounts \
+    --outFilterMultimapNmax 1 \
+    --outSAMtype BAM SortedByCoordinate \
+    --twopassMode Basic \
+    --outFileNamePrefix ${prefix}_
+done &
+
+wait

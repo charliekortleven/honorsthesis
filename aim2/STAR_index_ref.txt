@@ -1,0 +1,11 @@
+cd /global/scratch/users/charliekortleven/Aim_2/gtf_annotated
+module load STAR/2.7.11b
+
+STAR \
+--genomeDir /global/scratch/users/charliekortleven/Aim_2/star_indexed_genomes \
+--runThreadN 24 \
+--runMode genomeGenerate \
+--genomeFastaFiles /global/scratch/users/charliekortleven/Aim_2/gtf_annotated/Mnasutusvar_SF_822_v2.0.fa \
+--sjdbGTFfile /global/scratch/users/charliekortleven/Aim_2/gtf_annotated/Mnasutusvar_SF_822_v2.1.gene_exons.gff3.gtf \
+--sjdbOverhang 149 \
+--genomeSAindexNbases 13
