@@ -1,0 +1,22 @@
+module load bio/samtools/1.17-gcc-11.4.0
+module load java/22.0.1
+module load bio/picard/3.0.0-gcc-11.4.0
+
+INPUT="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/Founder_seq/founder_aligned_sorted_bam_RG"
+OUTPUT="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/Founder_seq/founder_aligned_sorted_bam_RG_dupsmarked"
+mkdir -p "$OUTPUT"
+
+PICARD_JAR="/global/software/rocky-8.x86_64/gcc/linux-rocky8-x86_64/gcc-11.4.0/picard-3.0.0-wbs42jyw32xv4iy4o6akzqo3pas4hob4/bin/picard.jar"
+
+for bamfile in "$INPUT"/*.bam; do
+    base=$(basename "$bamfile" .bam)
+    dedup_bam="$OUTPUT/${base}_dedup.bam"
+    dedup_metrics="$OUTPUT/${base}_dedup_metrics.txt"
+
+    java -jar $PICARD_JAR MarkDuplicates \
+        I="$bamfile" \
+        O="$dedup_bam" \
+        M="$dedup_metrics" \
+        CREATE_INDEX=true \
+        VALIDATION_STRINGENCY=SILENT
+done

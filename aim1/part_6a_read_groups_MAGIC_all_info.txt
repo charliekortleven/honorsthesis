@@ -1,0 +1,152 @@
+# P2
+BAM_DIR_P2 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P2/bam_sorted"
+OUTPUT_DIR_P2 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P2/bam_sorted_RG"
+RGID_P2="P2_Plate1"
+RGLB_P2="Plate2"
+RGPL_P2="illumina"
+RGPU_P2="Lane1_CGATGT"
+RGSM_P2="P2"
+
+# P3
+BAM_DIR_P3 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P3/bam_sorted"
+OUTPUT_DIR_P3 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P3/bam_sorted_RG"
+RGID_P3="P3_Plate1"
+RGLB_P3="Plate3"
+RGPL_P3="illumina"
+RGPU_P3="Lane1_TTAGGC"
+RGSM_P3="P3"
+
+# P4
+BAM_DIR_P4 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P4/bam_sorted"
+OUTPUT_DIR_P4 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P4/bam_sorted_RG"
+RGID_P4="P4_Plate2"
+RGLB_P4="Plate4"
+RGPL_P4="illumina"
+RGPU_P4="Lane2_TGACCA"
+RGSM_P4="P4"
+
+# P5
+BAM_DIR_P5 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P5/bam_sorted"
+OUTPUT_DIR_P5 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P5/bam_sorted_RG"
+RGID_P5="P5_Plate2"
+RGLB_P5="Plate5"
+RGPL_P5="illumina"
+RGPU_P5="Lane2_ACAGTG"
+RGSM_P5="P5"
+
+# P6
+BAM_DIR_P6 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P6/bam_sorted"
+OUTPUT_DIR_P6 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P6/bam_sorted_RG"
+RGID_P6="P6_Plate2"
+RGLB_P6="Plate6"
+RGPL_P6="illumina"
+RGPU_P6="Lane2_GCCAAT"
+RGSM_P6="P6"
+
+# P7
+BAM_DIR_P7 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P7/bam_sorted"
+OUTPUT_DIR_P7 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P7/bam_sorted_RG"
+RGID_P7="P7_Plate3"
+RGLB_P7="Plate7"
+RGPL_P7="illumina"
+RGPU_P7="Lane3_CAGATC"
+RGSM_P7="P7"
+
+# P8
+BAM_DIR_P8 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P8/bam_sorted"
+OUTPUT_DIR_P8 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P8/bam_sorted_RG"
+RGID_P8="P8_Plate3"
+RGLB_P8="Plate8"
+RGPL_P8="illumina"
+RGPU_P8="Lane3_ACTTGA"
+RGSM_P8="P8"
+
+# P9
+BAM_DIR_P9 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P9/bam_sorted"
+OUTPUT_DIR_P9 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P9/bam_sorted_RG"
+RGID_P9="P9_Plate3"
+RGLB_P9="Plate9"
+RGPL_P9="illumina"
+RGPU_P9="Lane3_GATCAG"
+RGSM_P9="P9"
+
+# P10
+BAM_DIR_P10 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P10/bam_sorted"
+OUTPUT_DIR_P10 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P10/bam_sorted_RG"
+RGID_P10="P10_Plate4"
+RGLB_P10="Plate10"
+RGPL_P10="illumina"
+RGPU_P10="Lane4_TAGCTT"
+RGSM_P10="P10"
+
+# P11
+BAM_DIR_P11 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P11/bam_sorted"
+OUTPUT_DIR_P11 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P11/bam_sorted_RG"
+RGID_P11="P11_Plate4"
+RGLB_P11="Plate11"
+RGPL_P11="illumina"
+RGPU_P11="Lane4_ATCACG"
+RGSM_P11="P11"
+
+# P12
+BAM_DIR_P12 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P12/bam_sorted"
+OUTPUT_DIR_P12="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P12/bam_sorted_RG"
+RGID_P12="P12_Plate4"
+RGLB_P12="Plate12"
+RGPL_P12="illumina"
+RGPU_P12="Lane4_CGATGT"
+RGSM_P12="P12"
+
+# P13
+BAM_DIR_P13 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P13/bam_sorted"
+OUTPUT_DIR_P13="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P13/bam_sorted_RG"
+RGID_P13="P13_Plate5"
+RGLB_P13="Plate13"
+RGPL_P13="illumina"
+RGPU_P13="Lane5_TTAGGC"
+RGSM_P13="P13"
+
+# P14
+BAM_DIR_P14= "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P14/bam_sorted"
+OUTPUT_DIR_P14="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P14/bam_sorted_RG"
+RGID_P14="P14_Plate5"
+RGLB_P14="Plate14"
+RGPL_P14="illumina"
+RGPU_P14="Lane5_TGACCA"
+RGSM_P14="P14"
+
+# P15
+BAM_DIR_P15 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P15/bam_sorted"
+OUTPUT_DIR_P15="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P15/bam_sorted_RG"
+RGID_P15="P15_Plate5"
+RGLB_P15="Plate15"
+RGPL_P15="illumina"
+RGPU_P15="Lane5_ACAGTG"
+RGSM_P15="P15"
+
+# P16
+BAM_DIR_P16 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P16/bam_sorted"
+OUTPUT_DIR_P16="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P16/bam_sorted_RG"
+RGID_P16="P16_Plate6"
+RGLB_P16="Plate16"
+RGPL_P16="illumina"
+RGPU_P16="Lane6_GCCAAT"
+RGSM_P16="P16"
+
+# P17
+BAM_DIR_P17 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P17/bam_sorted"
+OUTPUT_DIR_P17 ="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P17/bam_sorted_RG"
+RGID_P17="P17_Plate6"
+RGLB_P17="Plate17"
+RGPL_P17="illumina"
+RGPU_P17="Lane6_CAGATC"
+RGSM_P17="P17"
+
+# P18
+BAM_DIR_P18 = "/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P18/bam_sorted"
+OUTPUT_DIR_P18="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P18/bam_sorted_RG"
+RGID_P18="P18_Plate6"
+RGLB_P18="Plate18"
+RGPL_P18="illumina"
+RGPU_P18="Lane6_ACTTGA"
+RGSM_P18="P18"

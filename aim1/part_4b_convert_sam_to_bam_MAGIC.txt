@@ -1,0 +1,21 @@
+module load bio/samtools/1.17-gcc-11.4.0
+
+#define directories 
+samaligned="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_sam"
+bamoutput="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam"
+
+#iterate over each p* directory in samaligned, and create corresponding bam output
+for plate in "$samaligned"/P*; do
+    dirname=$(basename "$plate")
+    bam_dir="$bamoutput/$dirname/bam"
+    mkdir -p "$bam_dir"
+    #Iterate over each .sam in curr P*, and output .bam in corresponding bam output folder
+    for samfile in "$plate"/*.sam; do
+        filename=$(basename "$samfile" .sam)
+        bamfile="$bam_dir/${filename}.bam"
+    
+        samtools view -S -b "$samfile" > "$bamfile"
+        echo "converted samfile to bamfile"
+
+    done
+done

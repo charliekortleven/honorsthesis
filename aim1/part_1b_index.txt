@@ -1,0 +1,9 @@
+#load module
+module load bio/bwa-mem2/2.2.1 
+
+#unzip FASTA file
+gunzip /global/scratch/users/charliekortleven/Aim_1_Final/Mlaciniatus_assembly/daEryLaci1.CHR.p_ctg.fasta.gz 
+
+#index for BWA-MEM
+bwa-mem2 index /global/scratch/users/charliekortleven/Aim_1_Final/Mlaciniatus_assembly/daEryLaci1.CHR.p_ctg.fasta
+

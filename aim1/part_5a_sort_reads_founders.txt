@@ -1,0 +1,12 @@
+module load bio/samtools/1.17-gcc-11.4.0
+
+BAM_DIR="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/Founder_seq/founder_aligned_bam"
+SORTED_DIR="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/Founder_seq/founder_aligned_sorted_bam"
+mkdir -p "$SORTED_DIR"
+
+for bamfile in "$BAM_DIR"/*.bam; do
+    base_name=$(basename "$bamfile" .bam)
+    sorted_bam="$SORTED_DIR/${base_name}_sorted.bam"
+    samtools sort -o "$sorted_bam" "$bamfile"
+    echo "Sorted $bamfile -> $sorted_bam"
+done

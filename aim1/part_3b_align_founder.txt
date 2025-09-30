@@ -1,0 +1,18 @@
+referencegenome="/global/scratch/users/charliekortleven/Aim_1_Final/Mlaciniatus_assembly/daEryLaci1.CHR.p_ctg.fasta"
+folder="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/Founder_seq/trimmed_founder_seq"
+output_dir="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/Founder_seq/founder_aligned_sam"
+
+module load bio/bwa-mem2/2.2.1
+module load bio/samtools/1.17-gcc-11.4.0  
+
+mkdir -p "$output_dir"
+
+for forward_read in "$folder"/*_R1.trim.fastq; do
+    reverse_read="${forward_read/_R1/_R2}"
+    sample_name=$(basename "${forward_read%_R1.trim.fastq}")
+
+    bwa-mem2 mem -t 8 "$referencegenome" "$forward_read" "$reverse_read" > "$output_dir/${sample_name}.sam" &
+    echo "Started $sample_name"
+done
+
+wait

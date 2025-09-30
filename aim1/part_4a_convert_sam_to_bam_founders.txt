@@ -1,0 +1,13 @@
+module load bio/samtools/1.17-gcc-11.4.0
+
+#define directories 
+samaligned="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/Founder_seq/founder_aligned_sam"
+bamoutput="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/Founder_seq/founder_aligned_bam"
+
+for samfile in "$samaligned"/*.sam; do
+    filename=$(basename "$samfile" .sam)
+    bamfile="$bamoutput/${filename}.bam"
+
+    samtools view -S -b "$samfile" > "$bamfile"
+    echo "samfile converted to bamfile"
+done 

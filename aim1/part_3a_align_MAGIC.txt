@@ -1,0 +1,17 @@
+referencegenome="/global/scratch/users/charliekortleven/Aim_1_Final/Mlaciniatus_assembly/daEryLaci1.CHR.p_ctg.fasta"
+folder="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/P18"
+output_dir="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned/P18"
+
+module load bio/bwa-mem2/2.2.1
+module load bio/samtools/1.17-gcc-11.4.0  
+
+mkdir "$output_dir"
+
+for forward_read in "$folder"/*1.fq.gz; do
+    reverse_read="${forward_read%1.fq.gz}2.fq.gz"
+    sample_base=$(basename "${forward_read%1.fq.gz}")
+    sample_name="P18_${sample_base}"
+
+    bwa-mem2 mem -t 8 "$referencegenome" "$forward_read" "$reverse_read" > "$output_dir/${sample_name}sam" 
+done
+echo "samples completed successfully"

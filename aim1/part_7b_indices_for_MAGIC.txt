@@ -1,0 +1,12 @@
+module load bio/samtools/1.17-gcc-11.4.0
+
+BAM_DIR="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P*/bam_sorted_RG"
+
+#quotations ("$BAM_DIR") reference directory directly, while omitting quotes allows for wildcard expansion
+# Loop through BAM files and create index files
+for bam_file in $BAM_DIR/*.bam; do
+    echo "began indexing $bam_file"
+    samtools index $bam_file
+done
+
+echo "indexing completed"

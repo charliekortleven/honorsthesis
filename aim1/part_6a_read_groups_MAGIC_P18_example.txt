@@ -1,0 +1,31 @@
+module load bio/picard/3.0.0-gcc-11.4.0
+module load bio/samtools/1.17-gcc-11.4.0
+module load java/22.0.1
+
+PICARD_JAR="/global/software/rocky-8.x86_64/gcc/linux-rocky8-x86_64/gcc-11.4.0/picard-3.0.0-wbs42jyw32xv4iy4o6akzqo3pas4hob4/bin/picard.jar"
+
+BAM_DIR="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P18/bam_sorted"
+OUTPUT_DIR="/global/scratch/users/charliekortleven/Aim_1_Final/BWA_alignment/MAGIC_seq/MAGIC_aligned_bam/P18/bam_sorted_RG"
+RGID="P18_Plate6"
+RGLB="Plate18"
+RGPL="illumina"
+RGPU="Lane6_ACTTGA"
+
+mkdir -p "$OUTPUT_DIR"
+
+for bamfile in "$BAM_DIR"/*.bam; do
+    base_name=$(basename "$bamfile" .bam)
+    output_bam="$OUTPUT_DIR/${base_name}_rg.bam"
+    RGSM="${base_name}"
+
+    java -jar "$PICARD_JAR" AddOrReplaceReadGroups \
+        I="$bamfile" \
+        O="$output_bam" \
+        RGID="$RGID" \
+        RGLB="$RGLB" \
+        RGPL="$RGPL" \
+        RGPU="$RGPU" \
+        RGSM="$RGSM"
+
+    echo "P18 read groups added"
+done

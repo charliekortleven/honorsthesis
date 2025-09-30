@@ -1,0 +1,5 @@
+#SINGLE RUN
+module load stacks
+process_radtags -P -1 /path/to/forward/fastq.gz -2 /path/to/reverse/fastq.gz -b /path/to/barcode_list.txt -q -e csp6I -o path/to/output/files
+--
+process_radtags -P -1 /global/scratch/laurenhamm/Data/rotations/Ben/Mimulus/P2/P2_USPD16100786_H32VTCCX2_L1_1.fq.gz -2 /global/scratch/laurenhamm/Data/rotations/Ben/Mimulus/P2/P2_USPD16100786_H32VTCCX2_L1_2.fq.gz -b /global/scratch/laurenhamm/Data/rotations/Ben/Mimulus/barcode_list-Copy-new.txt -q -e csp6I -o /global/scratch/laurenhamm/Data/rotations/Ben/demux/
