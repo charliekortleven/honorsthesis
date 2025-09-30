@@ -1,0 +1,15 @@
+#load modules
+module load bio/samtools/1.17-gcc-11.4.0
+module load bio/gatk/4.4.0.0-gcc-11.4.0
+module load java/22.0.1
+
+# define fasta directory 
+fastaref="/global/scratch/users/charliekortleven/Aim_1_Final/Mlaciniatus_assembly/daEryLaci1.CHR.p_ctg.fasta.gz"
+
+# for indexing ref
+samtools faidx $fastaref
+
+# for creating ref dict 
+gatk CreateSequenceDictionary \
+   -R $fastaref \
+   -O /global/scratch/users/charliekortleven/Aim_1_Final/Mlaciniatus_assembly/daEryLaci1.CHR.p_ctg.dict
