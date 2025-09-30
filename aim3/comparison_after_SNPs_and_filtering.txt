@@ -1,0 +1,35 @@
+#now filtering the SNP-extracted VCFs according to (Colicchio et al. 2021)
+
+#then once again regenerate comparisons
+
+module load java/22.0.1
+module load python/3.11.6-gcc-11.4.0
+JAVA_OPTIONS="-DGATK_STACKTRACE_ON_USER_EXCEPTION=true -Djava.io.tmpdir=$TMPDIR -Xmx100g"
+GATK_HOME="$HOME/gatk-4.2.6.1"
+GATK="$GATK_HOME/gatk"
+
+input_vcf="/global/scratch/users/charliekortleven/alignments/aligned/Founderbam/parentalseqs/sortedbam/withReadGroupsAll/withDupMarked/genotyped/0005Kim2726_sorted_rg_dedup_snps.vcf.gz"
+output_filtered_vcf="/global/scratch/users/charliekortleven/alignments/aligned/Founderbam/parentalseqs/sortedbam/withReadGroupsAll/withDupMarked/genotyped/005Kim2726_sorted_rg_dedup_filtered_snps.vcf.gz"
+output_final_vcf="/global/scratch/users/charliekortleven/alignments/aligned/Founderbam/parentalseqs/sortedbam/withReadGroupsAll/withDupMarked/genotyped/005Kim2726_sorted_rg_dedup_passed_snps.vcf.gz"
+reference_genome="/global/scratch/users/charliekortleven/alignments/gatk/index/20230721.daEryLaci1.0.a_ctg.fasta"
+
+"$GATK" --java-options "$JAVA_OPTIONS" VariantFiltration \
+    -R "$reference_genome" \
+    -V "$input_vcf" \
+    -O "$output_filtered_vcf" \
+    --filter-name "QD_filter" -filter "QD < 2.0" \
+    --filter-name "FS_filter" -filter "FS > 60.0" \
+    --filter-name "MQ_filter" -filter "MQ < 40.0" \
+    --filter-name "SOR_filter" -filter "SOR > 4.0" \
+    --filter-name "MQRankSum_filter" -filter "MQRankSum < -12.5" \
+    --filter-name "ReadPosRankSum_filter" -filter "ReadPosRankSum < -8.0"
+
+echo "variant filtration annotated"
+
+"$GATK" --java-options "$JAVA_OPTIONS" SelectVariants \
+    -R "$reference_genome" \
+    -V "$output_filtered_vcf" \
+    -O "$output_final_vcf" \
+    -select 'vc.isNotFiltered()'
+
+echo "variants passing filtering selected"

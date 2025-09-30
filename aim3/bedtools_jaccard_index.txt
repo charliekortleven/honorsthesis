@@ -1,0 +1,13 @@
+#filter on both files being compared (this is an ex. on only on of the two)
+
+bcftools view -v snps ____.vcf.gz |
+perl -lane 'if (/^#/) { print } elsif (length($F[3]) == 1) { print }' |
+bgzip > Kim2726FilteredCharlie.vcf.gz
+
+# index
+tabix -p vcf Kim2726FilteredCharlie.vcf.gz
+
+bedtools intersect -u -a JesusKim2726.vcf.gz -b CharlieKim2726.vcf.gz | wc -l
+
+bedtools jaccard -a JesusKim2726.vcf.gz -b CharlieKim2726.vcf.gz
+

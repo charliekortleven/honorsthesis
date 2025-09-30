@@ -1,0 +1,14 @@
+#First step: upload the BAM and BAI file for RK46, and RG for Laciniatus (the version we both aligned to 20230721)
+
+#covert sam to bam
+samtools view -bS Kim2726-.sam > Kim2726-.bam
+
+#sort and index bam
+samtools sort Kim2726-.bam -o Kim2726_sorted.bam
+samtools index fileName.sorted.bam
+
+#transfer file to desktop to load to IGView (includes BAM BAI & FASTA for reference genome)
+scp -r charliekortleven@dtn.brc.berkeley.edu:module   "C:\Users\Charlie Kortleven\Desktop\IGViewer"
+
+#pick 5+ positions where there are discrepancies to look at under IGV
+

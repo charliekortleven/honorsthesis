@@ -1,0 +1,15 @@
+bcftools isec JesusKim2726.vcf.gz CharlieKim2726.vcf.gz -p isec
+cat isec/README.txt
+
+#variants private to the first VCF file (Jesus' copy)
+cat isec/0000.vcf | grep -v "^#" | wc -l
+19651
+
+#variants private to the second VCF file (Charlie's copy)
+cat isec/0001.vcf | grep -v "^#" | wc -l
+57260
+
+#variants shared between both Charlie's & Jesus' VCF; there is no functional difference between 002 and 003 they are just reciprocol comparisons
+cat isec/0002.vcf | grep -v "^#" | wc -l
+cat isec/0003.vcf | grep -v "^#" | wc -l
+102259

@@ -1,0 +1,64 @@
+#The next step is to extract the SNPs from the VCFs andagain compare the differences
+
+#0.02 prior VCF
+/global/scratch/users/charliekortleven/alignments/aligned/Founderbam/parentalseqs/sortedbam/withReadGroupsAll/withDupMarked/Kim2726gvcf0.00555/JesusKim2726/Kim2726-_marked_duplicates_RG.g.vcf.gz
+
+#0.00555 prior VCF
+/global/scratch/users/charliekortleven/alignments/aligned/Founderbam/parentalseqs/sortedbam/withReadGroupsAll/withDupMarked/Kim2726gvcf0.00555/Kim2726_sorted_rg_dedup.g.vcf.gz
+
+#this was ran on both GVCFs
+
+module load java/22.0.1
+module load python/3.11.6-gcc-11.4.0
+
+JAVA_OPTIONS="-DGATK_STACKTRACE_ON_USER_EXCEPTION=true -Djava.io.tmpdir=$TMPDIR -Xmx100g"
+
+vcf_000555_prior="/global/scratch/users/charliekortleven/alignments/aligned/Founderbam/parentalseqs/sortedbam/withReadGroupsAll/withDupMarked/Kim2726gvcf0.00555/JesusKim2726/Kim2726-_marked_duplicates_RG.g.vcf"
+reference_genome="/global/scratch/users/charliekortleven/alignments/gatk/index/20230721.daEryLaci1.0.a_ctg.fasta"
+output_dir="/global/scratch/users/charliekortleven/alignments/aligned/Founderbam/parentalseqs/sortedbam/withReadGroupsAll/withDupMarked/genotyped"
+
+mkdir -p "$output_dir"
+
+GATK_HOME="$HOME/gatk-4.2.6.1"
+GATK="$GATK_HOME/gatk"
+
+output_vcf="${output_dir}/002Kim2726_sorted_rg_dedup_genotyped.vcf.gz"
+"$GATK" --java-options "$JAVA_OPTIONS" GenotypeGVCFs \
+    -R "$reference_genome" \
+    -V "$vcf_000555_prior" \
+    -O "$output_vcf"
+
+echo "Genotyping completed for 0.02 prior"
+
+#after converting, index
+
+module load java/22.0.1
+
+GATK_HOME="$HOME/gatk-4.2.6.1"
+GATK="$GATK_HOME/gatk"
+input_vcf="/global/scratch/users/charliekortleven/alignments/aligned/Founderbam/parentalseqs/sortedbam/withReadGroupsAll/withDupMarked/genotyped/0005Kim2726_sorted_rg_dedup_genotyped.vcf.gz"
+
+"$GATK" IndexFeatureFile \
+    -I "$input_vcf"
+
+#Extract SNPs
+module load java/22.0.1
+JAVA_OPTIONS="-DGATK_STACKTRACE_ON_USER_EXCEPTION=true -Djava.io.tmpdir=$TMPDIR -Xmx100g"
+
+input_vcf="/global/scratch/users/charliekortleven/alignments/aligned/Founderbam/parentalseqs/sortedbam/withReadGroupsAll/withDupMarked/genotyped/0005Kim2726_sorted_rg_dedup_genotyped.vcf.gz"
+output_vcf="/global/scratch/users/charliekortleven/alignments/aligned/Founderbam/parentalseqs/sortedbam/withReadGroupsAll/withDupMarked/genotyped/0005Kim2726_sorted_rg_dedup_snps.vcf.gz"
+
+# Run GATK SelectVariants to extract SNPs
+GATK_HOME="$HOME/gatk-4.2.6.1"
+GATK="$GATK_HOME/gatk"
+
+"$GATK" --java-options "$JAVA_OPTIONS" SelectVariants \
+    -R /global/scratch/users/charliekortleven/alignments/gatk/index/20230721.daEryLaci1.0.a_ctg.fasta \
+    -V "$input_vcf" \
+    --select-type-to-include SNP \
+    -O "$output_vcf"
+
+echo "SNP-extracted 0.00555 prior"
+
+#recalculate bcftools general stats, jaccard index, and bedtools intersect on SNP-extracted VCFs
+

@@ -1,0 +1,11 @@
+module load  bio/bcftools/1.16-gcc-11.4.0
+
+#total number of SNPs
+bcftools view -v snps ____.vcf.gz | grep -v "^#" | wc -l
+
+#total number of unique positions --> indicate that several sites have 2+ alternate alleles
+bcftools view -v snps ____.vcf.gz | grep -v "^#" | cut -f2 | sort -u | wc -l
+
+#distrbution of reference vs. alt allele
+bcftools view -v snps ____.vcf.gz | grep -v "^#" | cut -f4,5 | sort | uniq -c | sort -k1rn
+
