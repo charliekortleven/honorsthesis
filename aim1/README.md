@@ -1,1 +1,1 @@
-test
+![test image](testimage.jpg)
