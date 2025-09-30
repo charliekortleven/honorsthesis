@@ -1,2 +1,3 @@
-To generate a consensus linkage map:
+To generate a consensus linkage map: 
+
 Subset the genotype matrices to each respective cross: A, C, and E. Exclude any markers that are not represented in all 3 subsets (3-way inner join). Use R/qtl2's est\_map() function to re-estimate the marker distances for each cross. Taking the resulting genetic map for each cross, use R/LPMerge to create a single consensus map, weighting each cross' map by the proportions of samples represented in the data. As opposed to assuming a constant rate of recombination, this consensus map can be used for QTL mapping where there are 3 distinct, 4-way crosses, and a total of 6 founders.
